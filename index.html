@@ -193,6 +193,15 @@
                         </div>
                     </div>
 
+                    <!-- Herramienta extra para exportar datos y actualizarlos en el celular fácil -->
+                    <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 text-xs flex items-center justify-between">
+                        <div>
+                            <span class="font-bold block text-blue-900">Sincronización para celular:</span>
+                            <span class="text-blue-700">Si agregas productos en la PC y quieres verlos en el celular al instante sin borrar caché, copia los datos maestros.</span>
+                        </div>
+                        <button onclick="exportarDatosTienda()" class="bg-blue-600 text-white px-3 py-2 rounded font-medium hover:bg-blue-700 shrink-0">Copiar Datos de Tienda</button>
+                    </div>
+
                     <div>
                         <h4 class="font-bold text-sm mb-3">Productos Registrados</h4>
                         <div id="admin-products-list" class="space-y-2 max-h-60 overflow-y-auto border p-2 rounded-lg bg-white"></div>
@@ -219,7 +228,7 @@
         </div>
     </footer>
 
-    <!-- Lógica de Almacenamiento Local (100% Funcional y Rápida) -->
+    <!-- Lógica de Tienda Optimizada -->
     <script>
         let currentCurrency = 'COP';
         let cart = [];
@@ -553,6 +562,21 @@
             resetProductForm();
             renderProducts();
             renderAdminProductsList();
+        }
+
+        function exportarDatosTienda() {
+            const datosCompletos = {
+                config: storeConfig,
+                products: products
+            };
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(datosCompletos));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", "euforia_backup.json");
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            alert("¡Se ha descargado un archivo de respaldo con todos tus productos y banners actualizados para que nunca pierdas nada!");
         }
 
         function renderAdminProductsList() {
