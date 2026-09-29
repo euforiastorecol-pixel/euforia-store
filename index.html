@@ -49,7 +49,7 @@
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-gray-100 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <img id="store-logo" src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=150" alt="Euforia Store Logo" class="h-12 w-12 object-cover rounded-full border border-[#FFDAB9] shadow-inner">
+                <img id="store-logo" src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=150" alt="Euforia Store Logo" class="h-12 w-12 object-cover rounded-full border border-[#FFDAB9] shadow-inner store-logo">
                 <span class="text-2xl sm:text-3xl font-bold tracking-wider font-serif text-gray-900">Euforia Store</span>
             </div>
 
@@ -153,11 +153,16 @@
                             <button onclick="updateStoreLogo()" class="bg-gray-900 text-white text-xs px-3 py-1.5 rounded">Guardar Logo</button>
                         </div>
                         <div>
-                            <h4 class="font-bold text-sm mb-2">Gestionar Banner Principal</h4>
+                            <h4 class="font-bold text-sm mb-2">Gestionar Banners Principales (1 al 3)</h4>
                             <div class="space-y-2 text-xs">
-                                <input type="text" id="banner-img-1" placeholder="URL de imagen Banner" class="w-full p-1.5 border rounded">
-                                <input type="text" id="banner-title-1" placeholder="Título Banner" class="w-full p-1.5 border rounded">
-                                <button onclick="saveBanners()" class="bg-gray-900 text-white text-xs px-3 py-1 rounded">Actualizar Banner</button>
+                                <select id="select-banner-num" class="w-full p-1.5 border rounded bg-white">
+                                    <option value="0">Banner Principal 1</option>
+                                    <option value="1">Banner Principal 2</option>
+                                    <option value="2">Banner Principal 3</option>
+                                </select>
+                                <input type="file" id="banner-file-input" accept="image/*" class="w-full text-xs">
+                                <input type="text" id="banner-title-input" placeholder="Título del Banner" class="w-full p-1.5 border rounded">
+                                <button onclick="saveBannerItem()" class="bg-gray-900 text-white text-xs px-3 py-1 rounded">Actualizar Banner</button>
                             </div>
                         </div>
                     </div>
@@ -234,7 +239,6 @@
         window.colRefProducts = collection(db, "products");
         window.colRefConfig = doc(db, "config", "storeSettings");
 
-        // Datos por defecto si la base de datos está vacía
         const defaultProducts = [
             { id: "demo1", name: "Perfume Rose Elegance", category: "dama", priceCOP: 180000, desc: "Notas florales y avainilladas de larga duración.", img1: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400", img2: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400" },
             { id: "demo2", name: "Blue Intense Man", category: "caballeros", priceCOP: 195000, desc: "Aroma amaderado fresco y elegante.", img1: "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=400", img2: "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?w=400" },
@@ -247,13 +251,16 @@
                 const configSnap = await getDoc(window.colRefConfig);
                 if (configSnap.exists()) {
                     window.storeConfig = configSnap.data();
-                    if (window.storeConfig.logo) document.getElementById('store-logo').src = window.storeConfig.logo;
+                    if (window.storeConfig.logo) {
+                        document.querySelectorAll('.store-logo').forEach(img => img.src = window.storeConfig.logo);
+                    }
                 } else {
                     window.storeConfig = {
                         logo: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=150",
                         banners: [
                             { img: "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?w=1200", title: "Descubre tu esencia ideal" },
-                            { img: "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=1200", title: "Elegancia y frescura natural" }
+                            { img: "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=1200", title: "Elegancia y frescura natural" },
+                            { img: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=1200", title: "Cremas y Body Sprays exclusivos" }
                         ]
                     };
                 }
@@ -264,7 +271,6 @@
                     window.products.push({ id: docSnap.id, ...docSnap.data() });
                 });
 
-                // Si no hay productos en la nube, cargamos los de muestra temporalmente
                 if (window.products.length === 0) {
                     window.products = defaultProducts;
                 }
@@ -275,6 +281,13 @@
             } catch (e) {
                 console.error("Error conectando a Firebase:", e);
                 window.products = defaultProducts;
+                window.storeConfig = {
+                    banners: [
+                        { img: "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?w=1200", title: "Descubre tu esencia ideal" },
+                        { img: "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=1200", title: "Elegancia y frescura natural" },
+                        { img: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=1200", title: "Cremas y Body Sprays exclusivos" }
+                    ]
+                };
                 renderCarousel();
                 renderProducts();
             }
@@ -290,10 +303,11 @@
         let currentCategory = 'todos';
         let currentSlideIndex = 0;
 
-        window.storeConfig = {
+        window.storeConfig = window.storeConfig || {
             banners: [
                 { img: "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?w=1200", title: "Descubre tu esencia ideal" },
-                { img: "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=1200", title: "Elegancia y frescura natural" }
+                { img: "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=1200", title: "Elegancia y frescura natural" },
+                { img: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=1200", title: "Cremas y Body Sprays exclusivos" }
             ]
         };
 
@@ -517,21 +531,45 @@
                 const base64 = await convertFileToBase64(fileInput.files[0]);
                 window.storeConfig.logo = base64;
                 await setDoc(window.colRefConfig, window.storeConfig, { merge: true });
-                document.getElementById('store-logo').src = base64;
+                document.querySelectorAll('.store-logo').forEach(img => img.src = base64);
                 alert("¡Logo actualizado en la nube!");
+            } else {
+                alert("Selecciona una imagen para el logo.");
             }
         }
 
-        async function saveBanners() {
-            const bImg = document.getElementById('banner-img-1').value;
-            const bTitle = document.getElementById('banner-title-1').value;
-            if(bImg && bTitle) {
-                if(!window.storeConfig.banners) window.storeConfig.banners = [];
-                window.storeConfig.banners[0] = { img: bImg, title: bTitle };
-                await setDoc(window.colRefConfig, window.storeConfig, { merge: true });
-                renderCarousel();
-                alert("¡Banner actualizado en la nube!");
+        async function saveBannerItem() {
+            const bannerIdx = Number(document.getElementById('select-banner-num').value);
+            const fileInput = document.getElementById('banner-file-input');
+            const titleInput = document.getElementById('banner-title-input').value;
+
+            if(!window.storeConfig.banners) {
+                window.storeConfig.banners = [
+                    { img: "", title: "" },
+                    { img: "", title: "" },
+                    { img: "", title: "" }
+                ];
             }
+
+            let currentBanner = window.storeConfig.banners[bannerIdx] || { img: "", title: "" };
+            let newImg = currentBanner.img;
+
+            if(fileInput.files && fileInput.files[0]) {
+                newImg = await convertFileToBase64(fileInput.files[0]);
+            }
+
+            if(titleInput.trim() !== "") {
+                currentBanner.title = titleInput;
+            }
+            if(newImg) {
+                currentBanner.img = newImg;
+            }
+
+            window.storeConfig.banners[bannerIdx] = currentBanner;
+
+            await setDoc(window.colRefConfig, window.storeConfig, { merge: true });
+            renderCarousel();
+            alert(`¡Banner ${bannerIdx + 1} actualizado en la nube!`);
         }
 
         async function saveProduct() {
@@ -569,12 +607,18 @@
 
         function renderAdminProductsList() {
             const list = document.getElementById('admin-products-list');
-            if(!window.products) return;
+            if(!window.products || window.products.length === 0) {
+                list.innerHTML = `<p class="text-xs text-gray-400 text-center py-2">No hay productos registrados.</p>`;
+                return;
+            }
             list.innerHTML = window.products.map(p => `
                 <div class="flex items-center justify-between bg-gray-50 p-2 rounded border text-xs mb-1">
                     <div class="flex items-center space-x-2">
                         <img src="${p.img1}" class="w-8 h-8 object-cover rounded">
-                        <span class="font-bold">${p.name}</span>
+                        <div>
+                            <span class="font-bold">${p.name}</span>
+                            <span class="text-gray-500 block">$${Number(p.priceCOP).toLocaleString('es-CO')} COP</span>
+                        </div>
                     </div>
                     <div class="space-x-2">
                         <button onclick="editProduct('${p.id}')" class="text-blue-600 hover:underline">Editar</button>
@@ -592,7 +636,7 @@
             document.getElementById('prod-category').value = p.category;
             document.getElementById('prod-price-cop').value = p.priceCOP;
             document.getElementById('prod-desc').value = p.desc || '';
-            document.getElementById('form-product-title').textContent = "Editar Producto";
+            document.getElementById('form-product-title').textContent = "Editar Producto: " + p.name;
         }
 
         async function deleteProduct(id) {
@@ -602,6 +646,7 @@
                 } else {
                     window.products = window.products.filter(p => p.id !== id);
                 }
+                alert("Producto eliminado.");
                 window.loadCloudData();
             }
         }
