@@ -19,7 +19,6 @@
         h1, h2, h3, .font-serif {
             font-family: 'Playfair Display', serif;
         }
-        /* Animación de volteo para las fotos de productos */
         .product-card-container {
             perspective: 1000px;
         }
@@ -49,27 +48,22 @@
     <!-- Cabecera / Navegación -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-gray-100 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <!-- Logo y Nombre -->
             <div class="flex items-center space-x-3">
                 <img id="store-logo" src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=150" alt="Euforia Store Logo" class="h-12 w-12 object-cover rounded-full border border-[#FFDAB9] shadow-inner">
                 <span class="text-2xl sm:text-3xl font-bold tracking-wider font-serif text-gray-900">Euforia Store</span>
             </div>
 
-            <!-- Acciones Derecha -->
             <div class="flex items-center space-x-4">
-                <!-- Selector de Moneda -->
                 <select id="currency-selector" onchange="changeCurrency()" class="bg-gray-50 border border-gray-200 text-xs sm:text-sm rounded-lg px-2 py-1.5 focus:outline-none focus:border-[#FFDAB9]">
                     <option value="COP">COP ($)</option>
                     <option value="USD">USD ($)</option>
                 </select>
 
-                <!-- Botón Carrito -->
                 <button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-orange-500 transition">
                     <i class="fa-solid fa-bag-shopping text-xl"></i>
                     <span id="cart-badge" class="absolute -top-1 -right-1 bg-[#FFDAB9] text-gray-900 font-bold text-[10px] h-5 w-5 rounded-full flex items-center justify-center shadow">0</span>
                 </button>
 
-                <!-- Botón Admin Discreto -->
                 <button onclick="openAdminModal()" class="p-2 text-gray-400 hover:text-gray-700 transition" title="Módulo Administrativo">
                     <i class="fa-solid fa-gear text-lg"></i>
                 </button>
@@ -82,14 +76,12 @@
         <div id="carousel-container" class="relative w-full h-[320px] sm:h-[420px] md:h-[480px]">
             <!-- Slides inyectados por JS -->
         </div>
-        <!-- Controles Carrusel -->
-        <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition"><i class="fa-solid fa-chevron-left"></i></button>
-        <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition"><i class="fa-solid fa-chevron-right"></i></button>
+        <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition z-20"><i class="fa-solid fa-chevron-left"></i></button>
+        <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition z-20"><i class="fa-solid fa-chevron-right"></i></button>
     </section>
 
     <!-- Contenido Principal & Categorías -->
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
-        <!-- Filtros de Categorías -->
         <div class="flex flex-wrap justify-center gap-2 sm:gap-4 mb-10">
             <button onclick="filterCategory('todos')" class="cat-btn px-5 py-2 rounded-full text-sm font-medium transition bg-gray-900 text-white shadow">Todos</button>
             <button onclick="filterCategory('dama')" class="cat-btn px-5 py-2 rounded-full text-sm font-medium transition bg-gray-100 text-gray-700 hover:bg-gray-200">Dama</button>
@@ -99,13 +91,12 @@
             <button onclick="filterCategory('body spray')" class="cat-btn px-5 py-2 rounded-full text-sm font-medium transition bg-gray-100 text-gray-700 hover:bg-gray-200">Body Spray</button>
         </div>
 
-        <!-- Listado de Productos -->
         <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Productos cargados dinámicamente desde Firebase -->
+            <!-- Productos cargados dinámicamente -->
         </div>
     </main>
 
-    <!-- Carrito de Compras Desplegable (Drawer) -->
+    <!-- Carrito de Compras -->
     <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
         <div class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onclick="toggleCart()"></div>
         <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
@@ -114,15 +105,12 @@
                     <h2 class="text-lg font-bold font-serif">Tu Carrito de Compras</h2>
                     <button onclick="toggleCart()" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-xl"></i></button>
                 </div>
-                <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4">
-                    <!-- Items del carrito -->
-                </div>
+                <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
                 <div class="p-6 border-t border-gray-100 bg-gray-50 space-y-4">
                     <div class="flex justify-between text-base font-bold">
                         <span>Total:</span>
                         <span id="cart-total">$0</span>
                     </div>
-                    <!-- Formulario de Checkout -->
                     <div class="space-y-3">
                         <input type="text" id="cust-name" placeholder="Nombre" class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:border-[#FFDAB9]">
                         <input type="text" id="cust-lastname" placeholder="Apellido" class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:border-[#FFDAB9]">
@@ -150,18 +138,14 @@
                 <button onclick="closeAdminModal()" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
             
-            <!-- Contenido del Admin (Login o Panel) -->
             <div class="p-6 overflow-y-auto flex-1">
-                <!-- Vista Login -->
                 <div id="admin-login-view" class="max-w-sm mx-auto py-10 space-y-4">
                     <p class="text-sm text-gray-600 text-center">Ingresa la contraseña administrativa:</p>
                     <input type="password" id="admin-pass-input" placeholder="Contraseña" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-[#FFDAB9]">
                     <button onclick="verifyAdminPassword()" class="w-full bg-gray-900 text-white py-2 rounded-lg font-medium hover:bg-gray-800 transition">Ingresar</button>
                 </div>
 
-                <!-- Vista Panel de Control -->
                 <div id="admin-panel-view" class="hidden space-y-8">
-                    <!-- Configuración Logo y Banners -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-4 rounded-xl border border-gray-200">
                         <div>
                             <h4 class="font-bold text-sm mb-2">Cambiar Logo de la Tienda</h4>
@@ -169,16 +153,15 @@
                             <button onclick="updateStoreLogo()" class="bg-gray-900 text-white text-xs px-3 py-1.5 rounded">Guardar Logo</button>
                         </div>
                         <div>
-                            <h4 class="font-bold text-sm mb-2">Gestionar Banners Rotativos (3 Promos)</h4>
+                            <h4 class="font-bold text-sm mb-2">Gestionar Banner Principal</h4>
                             <div class="space-y-2 text-xs">
-                                <input type="text" id="banner-img-1" placeholder="URL o Subir imagen Banner 1" class="w-full p-1.5 border rounded">
-                                <input type="text" id="banner-title-1" placeholder="Título Banner 1" class="w-full p-1.5 border rounded">
-                                <button onclick="saveBanners()" class="bg-gray-900 text-white text-xs px-3 py-1 rounded">Actualizar Banners</button>
+                                <input type="text" id="banner-img-1" placeholder="URL de imagen Banner" class="w-full p-1.5 border rounded">
+                                <input type="text" id="banner-title-1" placeholder="Título Banner" class="w-full p-1.5 border rounded">
+                                <button onclick="saveBanners()" class="bg-gray-900 text-white text-xs px-3 py-1 rounded">Actualizar Banner</button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Crear / Editar Producto -->
                     <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
                         <h4 id="form-product-title" class="font-bold text-sm mb-4">Crear Nuevo Producto</h4>
                         <input type="hidden" id="edit-product-id">
@@ -204,12 +187,9 @@
                         </div>
                     </div>
 
-                    <!-- Listado de Productos Existentes -->
                     <div>
                         <h4 class="font-bold text-sm mb-3">Productos Registrados</h4>
-                        <div id="admin-products-list" class="space-y-2 max-h-60 overflow-y-auto border p-2 rounded-lg">
-                            <!-- Inyectado por JS -->
-                        </div>
+                        <div id="admin-products-list" class="space-y-2 max-h-60 overflow-y-auto border p-2 rounded-lg bg-white"></div>
                     </div>
                 </div>
             </div>
@@ -233,10 +213,10 @@
         </div>
     </footer>
 
-    <!-- Firebase SDKs -->
+    <!-- Lógica de la Tienda y Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBpBcqCBs3PnBNJyLwG44rxz9eCRt2GdiQ",
@@ -254,60 +234,73 @@
         window.colRefProducts = collection(db, "products");
         window.colRefConfig = doc(db, "config", "storeSettings");
 
-        // Inicializar carga de datos al iniciar
-        window.loadCloudData();
-    </script>
+        // Datos por defecto si la base de datos está vacía
+        const defaultProducts = [
+            { id: "demo1", name: "Perfume Rose Elegance", category: "dama", priceCOP: 180000, desc: "Notas florales y avainilladas de larga duración.", img1: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400", img2: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400" },
+            { id: "demo2", name: "Blue Intense Man", category: "caballeros", priceCOP: 195000, desc: "Aroma amaderado fresco y elegante.", img1: "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=400", img2: "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?w=400" },
+            { id: "demo3", name: "Crema Corporal Velvet", category: "cremas corporales", priceCOP: 75000, desc: "Hidratación profunda con aroma delicado.", img1: "https://images.unsplash.com/photo-1608248597359-f5383a15ef0b?w=400", img2: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400" },
+            { id: "demo4", name: "Body Spray Summer Splash", category: "body spray", priceCOP: 60000, desc: "Frescura cítrica para todo el día.", img1: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400", img2: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400" }
+        ];
 
-    <!-- Lógica de la Tienda y Sincronización Cloud -->
-    <script>
-        let currentCurrency = 'COP';
-        let cart = [];
-        let currentCategory = 'todos';
-        let products = [];
-        let storeConfig = {
-            logo: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=150",
-            banners: [
-                { img: "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?w=1200", title: "Descubre tu esencia ideal" },
-                { img: "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=1200", title: "Elegancia y frescura natural" },
-                { img: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=1200", title: "Cremas y Body Sprays exclusivos" }
-            ]
-        };
-        let currentSlideIndex = 0;
-
-        async function loadCloudData() {
-            if (!window.db) {
-                setTimeout(loadCloudData, 500);
-                return;
-            }
+        window.loadCloudData = async function() {
             try {
-                // Cargar Configuración (Logo y Banners)
-                const { getDoc, getDocs, doc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
                 const configSnap = await getDoc(window.colRefConfig);
                 if (configSnap.exists()) {
-                    storeConfig = configSnap.data();
-                    if (storeConfig.logo) document.getElementById('store-logo').src = storeConfig.logo;
+                    window.storeConfig = configSnap.data();
+                    if (window.storeConfig.logo) document.getElementById('store-logo').src = window.storeConfig.logo;
+                } else {
+                    window.storeConfig = {
+                        logo: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=150",
+                        banners: [
+                            { img: "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?w=1200", title: "Descubre tu esencia ideal" },
+                            { img: "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=1200", title: "Elegancia y frescura natural" }
+                        ]
+                    };
                 }
 
-                // Cargar Productos
                 const querySnapshot = await getDocs(window.colRefProducts);
-                products = [];
+                window.products = [];
                 querySnapshot.forEach((docSnap) => {
-                    products.push({ id: docSnap.id, ...docSnap.data() });
+                    window.products.push({ id: docSnap.id, ...docSnap.data() });
                 });
+
+                // Si no hay productos en la nube, cargamos los de muestra temporalmente
+                if (window.products.length === 0) {
+                    window.products = defaultProducts;
+                }
 
                 renderCarousel();
                 renderProducts();
                 renderAdminProductsList();
             } catch (e) {
-                console.error("Error cargando datos de Firebase:", e);
+                console.error("Error conectando a Firebase:", e);
+                window.products = defaultProducts;
+                renderCarousel();
+                renderProducts();
             }
-        }
+        };
 
-        // Renderizar Carrusel
+        window.loadCloudData();
+    </script>
+
+    <!-- Funciones Generales de la Tienda -->
+    <script>
+        let currentCurrency = 'COP';
+        let cart = [];
+        let currentCategory = 'todos';
+        let currentSlideIndex = 0;
+
+        window.storeConfig = {
+            banners: [
+                { img: "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?w=1200", title: "Descubre tu esencia ideal" },
+                { img: "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=1200", title: "Elegancia y frescura natural" }
+            ]
+        };
+
         function renderCarousel() {
             const container = document.getElementById('carousel-container');
-            if (!container || !storeConfig.banners) return;
-            container.innerHTML = storeConfig.banners.map((b, idx) => `
+            if (!container || !window.storeConfig.banners) return;
+            container.innerHTML = window.storeConfig.banners.map((b, idx) => `
                 <div class="absolute inset-0 transition-opacity duration-1000 ${idx === currentSlideIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'}">
                     <img src="${b.img}" alt="Banner ${idx+1}" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
@@ -318,26 +311,26 @@
         }
 
         function nextSlide() {
-            if (!storeConfig.banners) return;
-            currentSlideIndex = (currentSlideIndex + 1) % storeConfig.banners.length;
+            if (!window.storeConfig.banners) return;
+            currentSlideIndex = (currentSlideIndex + 1) % window.storeConfig.banners.length;
             renderCarousel();
         }
 
         function prevSlide() {
-            if (!storeConfig.banners) return;
-            currentSlideIndex = (currentSlideIndex - 1 + storeConfig.banners.length) % storeConfig.banners.length;
+            if (!window.storeConfig.banners) return;
+            currentSlideIndex = (currentSlideIndex - 1 + window.storeConfig.banners.length) % window.storeConfig.banners.length;
             renderCarousel();
         }
 
         setInterval(nextSlide, 5000);
 
-        // Renderizar Productos
         function renderProducts() {
             const grid = document.getElementById('products-grid');
-            const filtered = currentCategory === 'todos' ? products : products.filter(p => p.category === currentCategory);
+            if(!window.products) return;
+            const filtered = currentCategory === 'todos' ? window.products : window.products.filter(p => p.category === currentCategory);
             
             if (filtered.length === 0) {
-                grid.innerHTML = `<p class="col-span-full text-center text-gray-500 py-12">No hay productos en esta categoría por el momento.</p>`;
+                grid.innerHTML = `<p class="col-span-full text-center text-gray-500 py-12">No hay productos en esta categoría.</p>`;
                 return;
             }
 
@@ -351,11 +344,9 @@
                 return `
                     <div class="product-card-container bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden flex flex-col justify-between h-96 cursor-pointer" onclick="this.classList.toggle('touch-flip')">
                         <div class="product-card-inner relative w-full h-64">
-                            <!-- Frente -->
                             <div class="product-card-front absolute inset-0 w-full h-full bg-gray-50">
                                 <img src="${p.img1}" alt="${p.name}" class="w-full h-full object-cover">
                             </div>
-                            <!-- Reverso -->
                             <div class="product-card-back absolute inset-0 w-full h-full bg-gray-50">
                                 ${img2Html}
                             </div>
@@ -395,7 +386,6 @@
             renderCart();
         }
 
-        // Carrito
         function toggleCart() {
             const drawer = document.getElementById('cart-drawer');
             drawer.classList.toggle('hidden');
@@ -403,7 +393,7 @@
         }
 
         function addToCart(id) {
-            const prod = products.find(p => p.id === id);
+            const prod = window.products.find(p => p.id === id);
             if(!prod) return;
             const existing = cart.find(item => item.id === id);
             if(existing) {
@@ -481,7 +471,7 @@
 
             let total = 0;
             cart.forEach(item => {
-                text.- `• ${item.qty}x ${item.name} ($${(item.priceCOP * item.qty).toLocaleString('es-CO')} COP)%0A`;
+                text += `• ${item.qty}x ${item.name} ($${(item.priceCOP * item.qty).toLocaleString('es-CO')} COP)%0A`;
                 total += item.priceCOP * item.qty;
             });
 
@@ -490,7 +480,6 @@
             window.open(`https://wa.me/573508860602?text=${text}`, '_blank');
         }
 
-        // Módulo Administrativo
         function openAdminModal() {
             document.getElementById('admin-modal').classList.remove('hidden');
         }
@@ -513,7 +502,6 @@
             }
         }
 
-        // Utilidad para convertir imagen local a base64 (para guardar en Firestore)
         function convertFileToBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -527,11 +515,10 @@
             const fileInput = document.getElementById('admin-logo-file');
             if(fileInput.files && fileInput.files[0]) {
                 const base64 = await convertFileToBase64(fileInput.files[0]);
-                storeConfig.logo = base64;
-                const { setDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
-                await setDoc(window.colRefConfig, storeConfig, { merge: true });
+                window.storeConfig.logo = base64;
+                await setDoc(window.colRefConfig, window.storeConfig, { merge: true });
                 document.getElementById('store-logo').src = base64;
-                alert("¡Logo actualizado en la nube con éxito!");
+                alert("¡Logo actualizado en la nube!");
             }
         }
 
@@ -539,12 +526,11 @@
             const bImg = document.getElementById('banner-img-1').value;
             const bTitle = document.getElementById('banner-title-1').value;
             if(bImg && bTitle) {
-                storeConfig.banners[0].img = bImg;
-                storeConfig.banners[0].title = bTitle;
-                const { setDoc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
-                await setDoc(window.colRefConfig, storeConfig, { merge: true });
+                if(!window.storeConfig.banners) window.storeConfig.banners = [];
+                window.storeConfig.banners[0] = { img: bImg, title: bTitle };
+                await setDoc(window.colRefConfig, window.storeConfig, { merge: true });
                 renderCarousel();
-                alert("¡Banners actualizados en la nube!");
+                alert("¡Banner actualizado en la nube!");
             }
         }
 
@@ -563,14 +549,13 @@
                 return;
             }
 
-            let img1 = file1 ? await convertFileToBase64(file1) : (id ? products.find(p => p.id === id).img1 : 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400');
-            let img2 = file2 ? await convertFileToBase64(file2) : (id ? products.find(p => p.id === id).img2 : img1);
+            let existingProd = id ? window.products.find(p => p.id === id) : null;
+            let img1 = file1 ? await convertFileToBase64(file1) : (existingProd ? existingProd.img1 : 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400');
+            let img2 = file2 ? await convertFileToBase64(file2) : (existingProd ? (existingProd.img2 || img1) : img1);
 
             const productData = { name, category, priceCOP, desc, img1, img2 };
 
-            const { addDoc, updateDoc, doc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
-
-            if(id) {
+            if(id && !id.startsWith('demo')) {
                 await updateDoc(doc(window.db, "products", id), productData);
                 alert("¡Producto actualizado en la nube!");
             } else {
@@ -579,13 +564,14 @@
             }
 
             resetProductForm();
-            loadCloudData();
+            window.loadCloudData();
         }
 
         function renderAdminProductsList() {
             const list = document.getElementById('admin-products-list');
-            list.innerHTML = products.map(p => `
-                <div class="flex items-center justify-between bg-white p-2 rounded border text-xs">
+            if(!window.products) return;
+            list.innerHTML = window.products.map(p => `
+                <div class="flex items-center justify-between bg-gray-50 p-2 rounded border text-xs mb-1">
                     <div class="flex items-center space-x-2">
                         <img src="${p.img1}" class="w-8 h-8 object-cover rounded">
                         <span class="font-bold">${p.name}</span>
@@ -599,7 +585,7 @@
         }
 
         function editProduct(id) {
-            const p = products.find(item => item.id === id);
+            const p = window.products.find(item => item.id === id);
             if(!p) return;
             document.getElementById('edit-product-id').value = p.id;
             document.getElementById('prod-name').value = p.name;
@@ -611,9 +597,12 @@
 
         async function deleteProduct(id) {
             if(confirm("¿Estás segura de eliminar este producto?")) {
-                const { deleteDoc, doc } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js");
-                await deleteDoc(doc(window.db, "products", id));
-                loadCloudData();
+                if(!id.startsWith('demo')) {
+                    await deleteDoc(doc(window.db, "products", id));
+                } else {
+                    window.products = window.products.filter(p => p.id !== id);
+                }
+                window.loadCloudData();
             }
         }
 
