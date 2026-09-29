@@ -170,8 +170,8 @@
                     <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
                         <h4 id="form-product-title" class="font-bold text-sm mb-4">Crear Nuevo Producto</h4>
                         <input type="hidden" id="edit-product-id">
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
-                            <input type="text" id="prod-name" placeholder="Nombre del Perfume/Crema" class="p-2 border rounded text-sm">
+                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 mb-3">
+                            <input type="text" id="prod-name" placeholder="Nombre del Perfume/Crema" class="p-2 border rounded text-sm sm:col-span-1">
                             <select id="prod-category" class="p-2 border rounded text-sm bg-white">
                                 <option value="dama">Dama</option>
                                 <option value="caballeros">Caballeros</option>
@@ -180,6 +180,7 @@
                                 <option value="body spray">Body Spray</option>
                             </select>
                             <input type="number" id="prod-price-cop" placeholder="Precio en COP" class="p-2 border rounded text-sm">
+                            <input type="number" step="0.01" id="prod-price-usd" placeholder="Precio en USD" class="p-2 border rounded text-sm">
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
                             <input type="file" id="prod-img1" accept="image/*" class="text-xs p-1 border rounded bg-white">
@@ -218,14 +219,13 @@
         </div>
     </footer>
 
-    <!-- Lógica de la Tienda y Almacenamiento Local Robusto -->
+    <!-- Lógica de la Tienda -->
     <script>
         let currentCurrency = 'COP';
         let cart = [];
         let currentCategory = 'todos';
         let currentSlideIndex = 0;
 
-        // Configuración por defecto y carga desde localStorage
         let storeConfig = JSON.parse(localStorage.getItem('euforia_store_config')) || {
             logo: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=150",
             banners: [
@@ -236,13 +236,12 @@
         };
 
         let products = JSON.parse(localStorage.getItem('euforia_store_products')) || [
-            { id: "demo1", name: "Perfume Rose Elegance", category: "dama", priceCOP: 180000, desc: "Notas florales y avainilladas de larga duración.", img1: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400", img2: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400" },
-            { id: "demo2", name: "Blue Intense Man", category: "caballeros", priceCOP: 195000, desc: "Aroma amaderado fresco y elegante.", img1: "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=400", img2: "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?w=400" },
-            { id: "demo3", name: "Crema Corporal Velvet", category: "cremas corporales", priceCOP: 75000, desc: "Hidratación profunda con aroma delicado.", img1: "https://images.unsplash.com/photo-1608248597359-f5383a15ef0b?w=400", img2: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400" },
-            { id: "demo4", name: "Body Spray Summer Splash", category: "body spray", priceCOP: 60000, desc: "Frescura cítrica para todo el día.", img1: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400", img2: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400" }
+            { id: "demo1", name: "Perfume Rose Elegance", category: "dama", priceCOP: 180000, priceUSD: 45.00, desc: "Notas florales y avainilladas de larga duración.", img1: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400", img2: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400" },
+            { id: "demo2", name: "Blue Intense Man", category: "caballeros", priceCOP: 195000, priceUSD: 48.75, desc: "Aroma amaderado fresco y elegante.", img1: "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=400", img2: "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?w=400" },
+            { id: "demo3", name: "Crema Corporal Velvet", category: "cremas corporales", priceCOP: 75000, priceUSD: 18.75, desc: "Hidratación profunda con aroma delicado.", img1: "https://images.unsplash.com/photo-1608248597359-f5383a15ef0b?w=400", img2: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400" },
+            { id: "demo4", name: "Body Spray Summer Splash", category: "body spray", priceCOP: 60000, priceUSD: 15.00, desc: "Frescura cítrica para todo el día.", img1: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400", img2: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400" }
         ];
 
-        // Aplicar logo inicial
         window.addEventListener('DOMContentLoaded', () => {
             if (storeConfig.logo) {
                 document.querySelectorAll('.store-logo').forEach(img => img.src = storeConfig.logo);
@@ -252,7 +251,6 @@
             renderAdminProductsList();
         });
 
-        // Renderizar Carrusel (Textos alineados a la izquierda)
         function renderCarousel() {
             const container = document.getElementById('carousel-container');
             if (!container || !storeConfig.banners) return;
@@ -280,7 +278,6 @@
 
         setInterval(nextSlide, 5000);
 
-        // Renderizar Productos
         function renderProducts() {
             const grid = document.getElementById('products-grid');
             if(!products) return;
@@ -294,7 +291,7 @@
             grid.innerHTML = filtered.map(p => {
                 let priceFormatted = currentCurrency === 'COP' 
                     ? `$ ${Number(p.priceCOP).toLocaleString('es-CO')} COP` 
-                    : `$ ${(p.priceCOP / 4000).toFixed(2)} USD`;
+                    : `$ ${Number(p.priceUSD || (p.priceCOP / 4000)).toFixed(2)} USD`;
 
                 let img2Html = p.img2 ? `<img src="${p.img2}" alt="${p.name}" class="w-full h-64 object-cover">` : `<img src="${p.img1}" alt="${p.name}" class="w-full h-64 object-cover">`;
 
@@ -376,9 +373,16 @@
             }
 
             let totalCOP = 0;
+            let totalUSD = 0;
+
             container.innerHTML = cart.map((item, idx) => {
-                totalCOP += item.priceCOP * item.qty;
-                let priceDisplay = currentCurrency === 'COP' ? `$${(item.priceCOP * item.qty).toLocaleString('es-CO')} COP` : `$${((item.priceCOP * item.qty)/4000).toFixed(2)} USD`;
+                let itemPriceCOP = item.priceCOP * item.qty;
+                let itemPriceUSD = (item.priceUSD || (item.priceCOP / 4000)) * item.qty;
+                
+                totalCOP += itemPriceCOP;
+                totalUSD += itemPriceUSD;
+
+                let priceDisplay = currentCurrency === 'COP' ? `$${itemPriceCOP.toLocaleString('es-CO')} COP` : `$${itemPriceUSD.toFixed(2)} USD`;
                 return `
                     <div class="flex items-center justify-between border-b pb-3">
                         <div class="flex items-center space-x-3">
@@ -396,7 +400,7 @@
                 `;
             }).join('');
 
-            let totalDisplay = currentCurrency === 'COP' ? `$${totalCOP.toLocaleString('es-CO')} COP` : `$${(totalCOP/4000).toFixed(2)} USD`;
+            let totalDisplay = currentCurrency === 'COP' ? `$${totalCOP.toLocaleString('es-CO')} COP` : `$${totalUSD.toFixed(2)} USD`;
             document.getElementById('cart-total').textContent = totalDisplay;
         }
 
@@ -426,13 +430,14 @@
             text += `*Dirección:* ${address}%0A`;
             text += `*Método de pago:* ${payment}%0A%0A*Productos:*%0A`;
 
-            let total = 0;
+            let totalCOP = 0;
             cart.forEach(item => {
-                text += `• ${item.qty}x ${item.name} ($${(item.priceCOP * item.qty).toLocaleString('es-CO')} COP)%0A`;
-                total += item.priceCOP * item.qty;
+                let subCOP = item.priceCOP * item.qty;
+                text += `• ${item.qty}x ${item.name} ($${subCOP.toLocaleString('es-CO')} COP)%0A`;
+                totalCOP += subCOP;
             });
 
-            text += `%0A*Total a pagar:* $${total.toLocaleString('es-CO')} COP`;
+            text += `%0A*Total a pagar:* $${totalCOP.toLocaleString('es-CO')} COP`;
 
             window.open(`https://wa.me/573508860602?text=${text}`, '_blank');
         }
@@ -520,13 +525,14 @@
             const name = document.getElementById('prod-name').value;
             const category = document.getElementById('prod-category').value;
             const priceCOP = Number(document.getElementById('prod-price-cop').value);
+            const priceUSD = Number(document.getElementById('prod-price-usd').value) || (priceCOP / 4000);
             const desc = document.getElementById('prod-desc').value;
             
             const file1 = document.getElementById('prod-img1').files[0];
             const file2 = document.getElementById('prod-img2').files[0];
 
             if(!name || !priceCOP) {
-                alert("Por favor completa al menos el nombre y el precio.");
+                alert("Por favor completa al menos el nombre y el precio en COP.");
                 return;
             }
 
@@ -535,11 +541,11 @@
             let img2 = file2 ? await convertFileToBase64(file2) : (existingProd ? (existingProd.img2 || img1) : img1);
 
             if(id) {
-                products = products.map(p => p.id === id ? { id, name, category, priceCOP, desc, img1, img2 } : p);
+                products = products.map(p => p.id === id ? { id, name, category, priceCOP, priceUSD, desc, img1, img2 } : p);
                 alert("¡Producto actualizado con éxito!");
             } else {
                 const newId = 'prod_' + Date.now();
-                products.push({ id: newId, name, category, priceCOP, desc, img1, img2 });
+                products.push({ id: newId, name, category, priceCOP, priceUSD, desc, img1, img2 });
                 alert("¡Producto creado con éxito!");
             }
 
@@ -561,7 +567,7 @@
                         <img src="${p.img1}" class="w-8 h-8 object-cover rounded">
                         <div>
                             <span class="font-bold">${p.name}</span>
-                            <span class="text-gray-500 block">$${Number(p.priceCOP).toLocaleString('es-CO')} COP</span>
+                            <span class="text-gray-500 block">$${Number(p.priceCOP).toLocaleString('es-CO')} COP / $${Number(p.priceUSD || (p.priceCOP/4000)).toFixed(2)} USD</span>
                         </div>
                     </div>
                     <div class="space-x-2">
@@ -579,6 +585,7 @@
             document.getElementById('prod-name').value = p.name;
             document.getElementById('prod-category').value = p.category;
             document.getElementById('prod-price-cop').value = p.priceCOP;
+            document.getElementById('prod-price-usd').value = p.priceUSD || (p.priceCOP / 4000).toFixed(2);
             document.getElementById('prod-desc').value = p.desc || '';
             document.getElementById('form-product-title').textContent = "Editar Producto: " + p.name;
         }
@@ -597,6 +604,7 @@
             document.getElementById('edit-product-id').value = '';
             document.getElementById('prod-name').value = '';
             document.getElementById('prod-price-cop').value = '';
+            document.getElementById('prod-price-usd').value = '';
             document.getElementById('prod-desc').value = '';
             document.getElementById('prod-img1').value = '';
             document.getElementById('prod-img2').value = '';
