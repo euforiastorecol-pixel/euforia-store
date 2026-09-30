@@ -11,31 +11,13 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #ffffff;
-            color: #2d2d2d;
-        }
-        h1, h2, h3, .font-serif {
-            font-family: 'Playfair Display', serif;
-        }
-        .product-card-container {
-            perspective: 1000px;
-        }
-        .product-card-inner {
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
-        .product-card-container:hover .product-card-inner,
-        .product-card-container.touch-flip .product-card-inner {
-            transform: rotateY(180deg);
-        }
-        .product-card-front, .product-card-back {
-            backface-visibility: hidden;
-        }
-        .product-card-back {
-            transform: rotateY(180deg);
-        }
+        body { font-family: 'Poppins', sans-serif; background-color: #ffffff; color: #2d2d2d; }
+        h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
+        .product-card-container { perspective: 1000px; }
+        .product-card-inner { transition: transform 0.6s; transform-style: preserve-3d; }
+        .product-card-container:hover .product-card-inner, .product-card-container.touch-flip .product-card-inner { transform: rotateY(180deg); }
+        .product-card-front, .product-card-back { backface-visibility: hidden; }
+        .product-card-back { transform: rotateY(180deg); }
     </style>
 </head>
 <body class="bg-white text-gray-800 min-h-screen flex flex-col justify-between">
@@ -45,42 +27,34 @@
         El aroma perfecto para tu piel, en un click. Envíos a toda Colombia
     </div>
 
-    <!-- Cabecera / Navegación -->
+    <!-- Cabecera -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-gray-100 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <img id="store-logo" src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=150" alt="Euforia Store Logo" class="h-12 w-12 object-cover rounded-full border border-[#FFDAB9] shadow-inner store-logo">
+                <img id="store-logo" src="https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=150" alt="Logo" class="h-12 w-12 object-cover rounded-full border border-[#FFDAB9] shadow-inner store-logo">
                 <span class="text-2xl sm:text-3xl font-bold tracking-wider font-serif text-gray-900">Euforia Store</span>
             </div>
-
             <div class="flex items-center space-x-4">
-                <select id="currency-selector" onchange="changeCurrency()" class="bg-gray-50 border border-gray-200 text-xs sm:text-sm rounded-lg px-2 py-1.5 focus:outline-none focus:border-[#FFDAB9]">
+                <select id="currency-selector" onchange="changeCurrency()" class="bg-gray-50 border border-gray-200 text-xs sm:text-sm rounded-lg px-2 py-1.5 focus:outline-none">
                     <option value="COP">COP ($)</option>
                     <option value="USD">USD ($)</option>
                 </select>
-
                 <button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-orange-500 transition">
                     <i class="fa-solid fa-bag-shopping text-xl"></i>
                     <span id="cart-badge" class="absolute -top-1 -right-1 bg-[#FFDAB9] text-gray-900 font-bold text-[10px] h-5 w-5 rounded-full flex items-center justify-center shadow">0</span>
-                </button>
-
-                <button onclick="openAdminModal()" class="p-2 text-gray-400 hover:text-gray-700 transition" title="Módulo Administrativo">
-                    <i class="fa-solid fa-gear text-lg"></i>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- Banner Dinámico Rotativo -->
+    <!-- Banner Principal -->
     <section class="relative w-full bg-gray-100 overflow-hidden shadow-inner">
-        <div id="carousel-container" class="relative w-full h-[320px] sm:h-[420px] md:h-[480px]">
-            <!-- Slides inyectados por JS -->
-        </div>
+        <div id="carousel-container" class="relative w-full h-[320px] sm:h-[420px] md:h-[480px]"></div>
         <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition z-20"><i class="fa-solid fa-chevron-left"></i></button>
         <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition z-20"><i class="fa-solid fa-chevron-right"></i></button>
     </section>
 
-    <!-- Contenido Principal & Categorías -->
+    <!-- Contenido Principal -->
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
         <div class="flex flex-wrap justify-center gap-2 sm:gap-4 mb-10">
             <button onclick="filterCategory('todos')" class="cat-btn px-5 py-2 rounded-full text-sm font-medium transition bg-gray-900 text-white shadow">Todos</button>
@@ -91,12 +65,10 @@
             <button onclick="filterCategory('body spray')" class="cat-btn px-5 py-2 rounded-full text-sm font-medium transition bg-gray-100 text-gray-700 hover:bg-gray-200">Body Spray</button>
         </div>
 
-        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Productos cargados dinámicamente -->
-        </div>
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
     </main>
 
-    <!-- Carrito de Compras -->
+    <!-- Carrito -->
     <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
         <div class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onclick="toggleCart()"></div>
         <div class="absolute inset-y-0 right-0 max-w-full flex pl-10">
@@ -112,10 +84,10 @@
                         <span id="cart-total">$0</span>
                     </div>
                     <div class="space-y-3">
-                        <input type="text" id="cust-name" placeholder="Nombre" class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:border-[#FFDAB9]">
-                        <input type="text" id="cust-lastname" placeholder="Apellido" class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:border-[#FFDAB9]">
-                        <input type="text" id="cust-address" placeholder="Dirección de envío" class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:border-[#FFDAB9]">
-                        <select id="cust-payment" class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:border-[#FFDAB9] bg-white">
+                        <input type="text" id="cust-name" placeholder="Nombre" class="w-full px-3 py-2 border rounded-lg text-sm">
+                        <input type="text" id="cust-lastname" placeholder="Apellido" class="w-full px-3 py-2 border rounded-lg text-sm">
+                        <input type="text" id="cust-address" placeholder="Dirección de envío" class="w-full px-3 py-2 border rounded-lg text-sm">
+                        <select id="cust-payment" class="w-full px-3 py-2 border rounded-lg text-sm bg-white">
                             <option value="Efectivo">Efectivo</option>
                             <option value="Nequi">Nequi</option>
                             <option value="Davivienda">Davivienda</option>
@@ -130,127 +102,34 @@
         </div>
     </div>
 
-    <!-- Modal Administrativo -->
-    <div id="admin-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden">
-        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden m-4">
-            <div class="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50">
-                <h3 class="text-xl font-bold font-serif">Módulo Administrativo - Euforia Store</h3>
-                <button onclick="closeAdminModal()" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-xl"></i></button>
-            </div>
-            
-            <div class="p-6 overflow-y-auto flex-1">
-                <div id="admin-login-view" class="max-w-sm mx-auto py-10 space-y-4">
-                    <p class="text-sm text-gray-600 text-center">Ingresa la contraseña administrativa:</p>
-                    <input type="password" id="admin-pass-input" placeholder="Contraseña" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-[#FFDAB9]">
-                    <button onclick="verifyAdminPassword()" class="w-full bg-gray-900 text-white py-2 rounded-lg font-medium hover:bg-gray-800 transition">Ingresar</button>
-                </div>
-
-                <div id="admin-panel-view" class="hidden space-y-8">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-4 rounded-xl border border-gray-200">
-                        <div>
-                            <h4 class="font-bold text-sm mb-2">Cambiar Logo de la Tienda</h4>
-                            <input type="file" id="admin-logo-file" accept="image/*" class="text-xs mb-2">
-                            <button onclick="updateStoreLogo()" class="bg-gray-900 text-white text-xs px-3 py-1.5 rounded">Guardar Logo</button>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-sm mb-2">Gestionar Banners Principales (1 al 3)</h4>
-                            <div class="space-y-2 text-xs">
-                                <select id="select-banner-num" class="w-full p-1.5 border rounded bg-white">
-                                    <option value="0">Banner Principal 1</option>
-                                    <option value="1">Banner Principal 2</option>
-                                    <option value="2">Banner Principal 3</option>
-                                </select>
-                                <input type="file" id="banner-file-input" accept="image/*" class="w-full text-xs">
-                                <input type="text" id="banner-title-input" placeholder="Título del Banner" class="w-full p-1.5 border rounded">
-                                <button onclick="saveBannerItem()" class="bg-gray-900 text-white text-xs px-3 py-1 rounded">Actualizar Banner</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
-                        <h4 id="form-product-title" class="font-bold text-sm mb-4">Crear Nuevo Producto</h4>
-                        <input type="hidden" id="edit-product-id">
-                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 mb-3">
-                            <input type="text" id="prod-name" placeholder="Nombre del Perfume/Crema" class="p-2 border rounded text-sm sm:col-span-1">
-                            <select id="prod-category" class="p-2 border rounded text-sm bg-white">
-                                <option value="dama">Dama</option>
-                                <option value="caballeros">Caballeros</option>
-                                <option value="unisex">Unisex</option>
-                                <option value="cremas corporales">Cremas Corporales</option>
-                                <option value="body spray">Body Spray</option>
-                            </select>
-                            <input type="number" id="prod-price-cop" placeholder="Precio en COP" class="p-2 border rounded text-sm">
-                            <input type="number" step="0.01" id="prod-price-usd" placeholder="Precio in USD" class="p-2 border rounded text-sm">
-                        </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
-                            <input type="file" id="prod-img1" accept="image/*" class="text-xs p-1 border rounded bg-white">
-                            <input type="file" id="prod-img2" accept="image/*" class="text-xs p-1 border rounded bg-white">
-                        </div>
-                        <textarea id="prod-desc" placeholder="Descripción corta del producto" class="w-full p-2 border rounded text-sm mb-3"></textarea>
-                        <div class="flex gap-2">
-                            <button onclick="saveProduct()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded text-sm font-medium">Guardar Producto</button>
-                            <button onclick="resetProductForm()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded text-sm">Cancelar</button>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h4 class="font-bold text-sm mb-3">Productos Registrados</h4>
-                        <div id="admin-products-list" class="space-y-2 max-h-60 overflow-y-auto border p-2 rounded-lg bg-white"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Pie de Página -->
     <footer class="bg-gray-900 text-white py-10 mt-16 border-t border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="text-center md:text-left">
-                <span class="text-xl font-bold font-serif tracking-wide">Euforia Store</span>
-                <p class="text-xs text-gray-400 mt-1">El aroma perfecto para tu piel, en un click.</p>
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <span class="text-xl font-bold font-serif">Euforia Store</span>
+            <p class="text-xs text-gray-400 mt-1">El aroma perfecto para tu piel, en un click.</p>
+            <div class="flex justify-center space-x-6 text-2xl mt-4">
+                <a href="https://www.tiktok.com/@euforia.store.col" target="_blank" class="hover:text-[#FFDAB9]"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="https://www.instagram.com/euforia_store_col" target="_blank" class="hover:text-[#FFDAB9]"><i class="fa-brands fa-instagram"></i></a>
             </div>
-            <div class="flex space-x-6 text-2xl">
-                <a href="https://www.tiktok.com/@euforia.store.col?_r=1&_t=ZS-9A8h3qZ4gRJ" target="_blank" class="hover:text-[#FFDAB9] transition"><i class="fa-brands fa-tiktok"></i></a>
-                <a href="https://www.instagram.com/euforia_store_col?stkn=MWx2NXhqeDB2ZXo0bA%3D%3D&utm_source=qr" target="_blank" class="hover:text-[#FFDAB9] transition"><i class="fa-brands fa-instagram"></i></a>
-            </div>
-        </div>
-        <div class="text-center text-xs text-gray-500 mt-8">
-            &copy; 2026 Euforia Store. Todos los derechos reservados.
         </div>
     </footer>
 
-    <!-- LÓGICA DE TIENDA CON AUTO-INYECCIÓN PARA EVITAR CACHÉ EN MÓVILES -->
+    <!-- AQUÍ ESTÁN TUS PRODUCTOS Y BANNERS: Modifícalos aquí mismo en el código cuando quieras actualizar la tienda -->
     <script>
-        // Versión fija incrustada directamente en el archivo HTML. 
-        // Cada vez que guardes un producto en tu PC, el panel actualizará esta estructura automáticamente.
-        window.STORE_VERSION = "2026-v2";
-
-        let defaultStoreConfig = {
+        const STORE_DATA = {
             logo: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=150",
             banners: [
                 { img: "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?w=1200", title: "Descubre tu esencia ideal" },
                 { img: "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=1200", title: "Elegancia y frescura natural" },
                 { img: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=1200", title: "Cremas y Body Sprays exclusivos" }
+            ],
+            products: [
+                { id: "demo1", name: "Perfume Rose Elegance", category: "dama", priceCOP: 180000, priceUSD: 45.00, desc: "Notas florales y avainilladas de larga duración.", img1: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400", img2: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400" },
+                { id: "demo2", name: "Blue Intense Man", category: "caballeros", priceCOP: 195000, priceUSD: 48.75, desc: "Aroma amaderado fresco y elegante.", img1: "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=400", img2: "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?w=400" },
+                { id: "demo3", name: "Crema Corporal Velvet", category: "cremas corporales", priceCOP: 75000, priceUSD: 18.75, desc: "Hidratación profunda con aroma delicado.", img1: "https://images.unsplash.com/photo-1608248597359-f5383a15ef0b?w=400", img2: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400" },
+                { id: "demo4", name: "Body Spray Summer Splash", category: "body spray", priceCOP: 60000, priceUSD: 15.00, desc: "Frescura cítrica para todo el día.", img1: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400", img2: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400" }
             ]
         };
-
-        let defaultProducts = [
-            { id: "demo1", name: "Perfume Rose Elegance", category: "dama", priceCOP: 180000, priceUSD: 45.00, desc: "Notas florales y avainilladas de larga duración.", img1: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400", img2: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400" },
-            { id: "demo2", name: "Blue Intense Man", category: "caballeros", priceCOP: 195000, priceUSD: 48.75, desc: "Aroma amaderado fresco y elegante.", img1: "https://images.unsplash.com/photo-1547887537-6158d64c35b3?w=400", img2: "https://images.unsplash.com/photo-1615397349754-cfa2066a298e?w=400" },
-            { id: "demo3", name: "Crema Corporal Velvet", category: "cremas corporales", priceCOP: 75000, priceUSD: 18.75, desc: "Hidratación profunda con aroma delicado.", img1: "https://images.unsplash.com/photo-1608248597359-f5383a15ef0b?w=400", img2: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400" },
-            { id: "demo4", name: "Body Spray Summer Splash", category: "body spray", priceCOP: 60000, priceUSD: 15.00, desc: "Frescura cítrica para todo el día.", img1: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400", img2: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400" }
-        ];
-
-        // Sincronización automática de versión en caché móvil
-        let localVersion = localStorage.getItem('euforia_version');
-        if (localVersion !== window.STORE_VERSION) {
-            localStorage.removeItem('euforia_store_config');
-            localStorage.removeItem('euforia_store_products');
-            localStorage.setItem('euforia_version', window.STORE_VERSION);
-        }
-
-        let storeConfig = JSON.parse(localStorage.getItem('euforia_store_config')) || defaultStoreConfig;
-        let products = JSON.parse(localStorage.getItem('euforia_store_products')) || defaultProducts;
 
         let currentCurrency = 'COP';
         let cart = [];
@@ -258,18 +137,17 @@
         let currentSlideIndex = 0;
 
         window.addEventListener('DOMContentLoaded', () => {
-            if (storeConfig.logo) {
-                document.querySelectorAll('.store-logo').forEach(img => img.src = storeConfig.logo);
+            if (STORE_DATA.logo) {
+                document.querySelectorAll('.store-logo').forEach(img => img.src = STORE_DATA.logo);
             }
             renderCarousel();
             renderProducts();
-            renderAdminProductsList();
         });
 
         function renderCarousel() {
             const container = document.getElementById('carousel-container');
-            if (!container || !storeConfig.banners) return;
-            container.innerHTML = storeConfig.banners.map((b, idx) => `
+            if (!container || !STORE_DATA.banners) return;
+            container.innerHTML = STORE_DATA.banners.map((b, idx) => `
                 <div class="absolute inset-0 transition-opacity duration-1000 ${idx === currentSlideIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'}">
                     <img src="${b.img}" alt="Banner ${idx+1}" class="w-full h-full object-cover">
                     <div class="absolute inset-0 bg-black/40 flex items-center justify-start px-8 sm:px-16 md:px-24">
@@ -280,14 +158,14 @@
         }
 
         function nextSlide() {
-            if (!storeConfig.banners) return;
-            currentSlideIndex = (currentSlideIndex + 1) % storeConfig.banners.length;
+            if (!STORE_DATA.banners) return;
+            currentSlideIndex = (currentSlideIndex + 1) % STORE_DATA.banners.length;
             renderCarousel();
         }
 
         function prevSlide() {
-            if (!storeConfig.banners) return;
-            currentSlideIndex = (currentSlideIndex - 1 + storeConfig.banners.length) % storeConfig.banners.length;
+            if (!STORE_DATA.banners) return;
+            currentSlideIndex = (currentSlideIndex - 1 + STORE_DATA.banners.length) % STORE_DATA.banners.length;
             renderCarousel();
         }
 
@@ -295,8 +173,8 @@
 
         function renderProducts() {
             const grid = document.getElementById('products-grid');
-            if(!products) return;
-            const filtered = currentCategory === 'todos' ? products : products.filter(p => p.category === currentCategory);
+            if(!STORE_DATA.products) return;
+            const filtered = currentCategory === 'todos' ? STORE_DATA.products : STORE_DATA.products.filter(p => p.category === currentCategory);
             
             if (filtered.length === 0) {
                 grid.innerHTML = `<p class="col-span-full text-center text-gray-500 py-12">No hay productos en esta categoría.</p>`;
@@ -339,11 +217,10 @@
         function filterCategory(cat) {
             currentCategory = cat;
             document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.classList.remove('bg-gray-900', 'text-white', 'shadow');
-                btn.classList.add('bg-gray-100', 'text-gray-700');
+                btn.classList.0 && btn.classList.remove('bg-gray-900', 'text-white', 'shadow');
+                btn.className = 'cat-btn px-5 py-2 rounded-full text-sm font-medium transition bg-gray-100 text-gray-700 hover:bg-gray-200';
                 if(btn.textContent.toLowerCase().includes(cat) || (cat === 'todos' && btn.textContent === 'Todos')) {
-                    btn.classList.add('bg-gray-900', 'text-white', 'shadow');
-                    btn.classList.remove('bg-gray-100', 'text-gray-700');
+                    btn.className = 'cat-btn px-5 py-2 rounded-full text-sm font-medium transition bg-gray-900 text-white shadow';
                 }
             });
             renderProducts();
@@ -356,27 +233,21 @@
         }
 
         function toggleCart() {
-            const drawer = document.getElementById('cart-drawer');
-            drawer.classList.toggle('hidden');
+            document.getElementById('cart-drawer').classList.toggle('hidden');
             renderCart();
         }
 
         function addToCart(id) {
-            const prod = products.find(p => p.id === id);
+            const prod = STORE_DATA.products.find(p => p.id === id);
             if(!prod) return;
             const existing = cart.find(item => item.id === id);
-            if(existing) {
-                existing.qty++;
-            } else {
-                cart.push({ ...prod, qty: 1 });
-            }
+            if(existing) { existing.qty++; } else { cart.push({ ...prod, qty: 1 }); }
             updateCartBadge();
             toggleCart();
         }
 
         function updateCartBadge() {
-            const count = cart.reduce((sum, item) => sum + item.qty, 0);
-            document.getElementById('cart-badge').textContent = count;
+            document.getElementById('cart-badge').textContent = cart.reduce((sum, item) => sum + item.qty, 0);
         }
 
         function renderCart() {
@@ -386,37 +257,25 @@
                 document.getElementById('cart-total').textContent = currentCurrency === 'COP' ? '$0 COP' : '$0.00 USD';
                 return;
             }
-
-            let totalCOP = 0;
-            let totalUSD = 0;
-
+            let totalCOP = 0, totalUSD = 0;
             container.innerHTML = cart.map((item, idx) => {
-                let itemPriceCOP = item.priceCOP * item.qty;
-                let itemPriceUSD = (item.priceUSD || (item.priceCOP / 4000)) * item.qty;
-                
-                totalCOP += itemPriceCOP;
-                totalUSD += itemPriceUSD;
-
-                let priceDisplay = currentCurrency === 'COP' ? `$${itemPriceCOP.toLocaleString('es-CO')} COP` : `$${itemPriceUSD.toFixed(2)} USD`;
+                let subCOP = item.priceCOP * item.qty;
+                let subUSD = (item.priceUSD || (item.priceCOP / 4000)) * item.qty;
+                totalCOP += subCOP; totalUSD += subUSD;
+                let priceDisplay = currentCurrency === 'COP' ? `$${subCOP.toLocaleString('es-CO')} COP` : `$${subUSD.toFixed(2)} USD`;
                 return `
                     <div class="flex items-center justify-between border-b pb-3">
                         <div class="flex items-center space-x-3">
                             <img src="${item.img1}" class="w-12 h-12 object-cover rounded-lg">
-                            <div>
-                                <h4 class="text-sm font-bold">${item.name}</h4>
-                                <p class="text-xs text-gray-500">Cant: ${item.qty}</p>
-                            </div>
+                            <div><h4 class="text-sm font-bold">${item.name}</h4><p class="text-xs text-gray-500">Cant: ${item.qty}</p></div>
                         </div>
                         <div class="text-right">
                             <span class="text-sm font-semibold">${priceDisplay}</span>
                             <button onclick="removeFromCart(${idx})" class="text-red-500 text-xs block mt-1 hover:underline">Eliminar</button>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             }).join('');
-
-            let totalDisplay = currentCurrency === 'COP' ? `$${totalCOP.toLocaleString('es-CO')} COP` : `$${totalUSD.toFixed(2)} USD`;
-            document.getElementById('cart-total').textContent = totalDisplay;
+            document.getElementById('cart-total').textContent = currentCurrency === 'COP' ? `$${totalCOP.toLocaleString('es-CO')} COP` : `$${totalUSD.toFixed(2)} USD`;
         }
 
         function removeFromCart(idx) {
@@ -426,203 +285,21 @@
         }
 
         function checkoutWhatsApp() {
-            if(cart.length === 0) {
-                alert("Agrega productos al carrito antes de comprar.");
-                return;
-            }
+            if(cart.length === 0) { alert("Agrega productos al carrito."); return; }
             const name = document.getElementById('cust-name').value.trim();
             const lastname = document.getElementById('cust-lastname').value.trim();
             const address = document.getElementById('cust-address').value.trim();
             const payment = document.getElementById('cust-payment').value;
+            if(!name || !lastname || !address) { alert("Completa nombre, apellido y dirección."); return; }
 
-            if(!name || !lastname || !address) {
-                alert("Por favor completa nombre, apellido y dirección.");
-                return;
-            }
-
-            let text = `*¡Hola Euforia Store!* Quiero realizar el siguiente pedido:%0A%0A`;
-            text += `*Cliente:* ${name} ${lastname}%0A`;
-            text += `*Dirección:* ${address}%0A`;
-            text += `*Método de pago:* ${payment}%0A%0A*Productos:*%0A`;
-
-            let totalCOP = 0;
+            let text = `*¡Hola Euforia Store!* Pedido:%0AClient: ${name} ${lastname}%0ADir: ${address}%0APago: ${payment}%0A%0A`;
+            let total = 0;
             cart.forEach(item => {
-                let subCOP = item.priceCOP * item.qty;
-                text += `• ${item.qty}x ${item.name} ($${subCOP.toLocaleString('es-CO')} COP)%0A`;
-                totalCOP += subCOP;
+                text += `• ${item.qty}x ${item.name} ($${(item.priceCOP * item.qty).toLocaleString('es-CO')} COP)%0A`;
+                total += item.priceCOP * item.qty;
             });
-
-            text += `%0A*Total a pagar:* $${totalCOP.toLocaleString('es-CO')} COP`;
-
+            text += `%0A*Total:* $${total.toLocaleString('es-CO')} COP`;
             window.open(`https://wa.me/573508860602?text=${text}`, '_blank');
-        }
-
-        function openAdminModal() {
-            document.getElementById('admin-modal').classList.remove('hidden');
-        }
-
-        function closeAdminModal() {
-            document.getElementById('admin-modal').classList.add('hidden');
-            document.getElementById('admin-pass-input').value = '';
-            document.getElementById('admin-login-view').classList.remove('hidden');
-            document.getElementById('admin-panel-view').classList.add('hidden');
-        }
-
-        function verifyAdminPassword() {
-            const pass = document.getElementById('admin-pass-input').value;
-            if(pass === 'nuevavida2026') {
-                document.getElementById('admin-login-view').classList.add('hidden');
-                document.getElementById('admin-panel-view').classList.remove('hidden');
-                renderAdminProductsList();
-            } else {
-                alert("Contraseña incorrecta.");
-            }
-        }
-
-        function convertFileToBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            });
-        }
-
-        async function updateStoreLogo() {
-            const fileInput = document.getElementById('admin-logo-file');
-            if(fileInput.files && fileInput.files[0]) {
-                const base64 = await convertFileToBase64(fileInput.files[0]);
-                storeConfig.logo = base64;
-                localStorage.setItem('euforia_store_config', JSON.stringify(storeConfig));
-                document.querySelectorAll('.store-logo').forEach(img => img.src = base64);
-                alert("¡Logo actualizado con éxito!");
-            } else {
-                alert("Selecciona una imagen para el logo.");
-            }
-        }
-
-        async function saveBannerItem() {
-            const bannerIdx = Number(document.getElementById('select-banner-num').value);
-            const fileInput = document.getElementById('banner-file-input');
-            const titleInput = document.getElementById('banner-title-input').value;
-
-            if(!storeConfig.banners) {
-                storeConfig.banners = [
-                    { img: "", title: "" },
-                    { img: "", title: "" },
-                    { img: "", title: "" }
-                ];
-            }
-
-            let currentBanner = storeConfig.banners[bannerIdx] || { img: "", title: "" };
-            let newImg = currentBanner.img;
-
-            if(fileInput.files && fileInput.files[0]) {
-                newImg = await convertFileToBase64(fileInput.files[0]);
-            }
-
-            if(titleInput.trim() !== "") {
-                currentBanner.title = titleInput;
-            }
-            if(newImg) {
-                currentBanner.img = newImg;
-            }
-
-            storeConfig.banners[bannerIdx] = currentBanner;
-            localStorage.setItem('euforia_store_config', JSON.stringify(storeConfig));
-            renderCarousel();
-            alert(`¡Banner ${bannerIdx + 1} actualizado con éxito!`);
-        }
-
-        async function saveProduct() {
-            const id = document.getElementById('edit-product-id').value;
-            const name = document.getElementById('prod-name').value;
-            const category = document.getElementById('prod-category').value;
-            const priceCOP = Number(document.getElementById('prod-price-cop').value);
-            const priceUSD = Number(document.getElementById('prod-price-usd').value) || (priceCOP / 4000);
-            const desc = document.getElementById('prod-desc').value;
-            
-            const file1 = document.getElementById('prod-img1').files[0];
-            const file2 = document.getElementById('prod-img2').files[0];
-
-            if(!name || !priceCOP) {
-                alert("Por favor completa al menos el nombre y el precio en COP.");
-                return;
-            }
-
-            let existingProd = id ? products.find(p => p.id === id) : null;
-            let img1 = file1 ? await convertFileToBase64(file1) : (existingProd ? existingProd.img1 : 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=400');
-            let img2 = file2 ? await convertFileToBase64(file2) : (existingProd ? (existingProd.img2 || img1) : img1);
-
-            if(id) {
-                products = products.map(p => p.id === id ? { id, name, category, priceCOP, priceUSD, desc, img1, img2 } : p);
-                alert("¡Producto actualizado con éxito!");
-            } else {
-                const newId = 'prod_' + Date.now();
-                products.push({ id: newId, name, category, priceCOP, priceUSD, desc, img1, img2 });
-                alert("¡Producto creado con éxito!");
-            }
-
-            localStorage.setItem('euforia_store_products', JSON.stringify(products));
-            resetProductForm();
-            renderProducts();
-            renderAdminProductsList();
-        }
-
-        function renderAdminProductsList() {
-            const list = document.getElementById('admin-products-list');
-            if(!products || products.length === 0) {
-                list.innerHTML = `<p class="text-xs text-gray-400 text-center py-2">No hay productos registrados.</p>`;
-                return;
-            }
-            list.innerHTML = products.map(p => `
-                <div class="flex items-center justify-between bg-gray-50 p-2 rounded border text-xs mb-1">
-                    <div class="flex items-center space-x-2">
-                        <img src="${p.img1}" class="w-8 h-8 object-cover rounded">
-                        <div>
-                            <span class="font-bold">${p.name}</span>
-                            <span class="text-gray-500 block">$${Number(p.priceCOP).toLocaleString('es-CO')} COP / $${Number(p.priceUSD || (p.priceCOP/4000)).toFixed(2)} USD</span>
-                        </div>
-                    </div>
-                    <div class="space-x-2">
-                        <button onclick="editProduct('${p.id}')" class="text-blue-600 hover:underline">Editar</button>
-                        <button onclick="deleteProduct('${p.id}')" class="text-red-600 hover:underline">Eliminar</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function editProduct(id) {
-            const p = products.find(item => item.id === id);
-            if(!p) return;
-            document.getElementById('edit-product-id').value = p.id;
-            document.getElementById('prod-name').value = p.name;
-            document.getElementById('prod-category').value = p.category;
-            document.getElementById('prod-price-cop').value = p.priceCOP;
-            document.getElementById('prod-price-usd').value = p.priceUSD || (p.priceCOP / 4000).toFixed(2);
-            document.getElementById('prod-desc').value = p.desc || '';
-            document.getElementById('form-product-title').textContent = "Editar Producto: " + p.name;
-        }
-
-        function deleteProduct(id) {
-            if(confirm("¿Estás segura de eliminar este producto?")) {
-                products = products.filter(p => p.id !== id);
-                localStorage.setItem('euforia_store_products', JSON.stringify(products));
-                alert("Producto eliminado.");
-                renderProducts();
-                renderAdminProductsList();
-            }
-        }
-
-        function resetProductForm() {
-            document.getElementById('edit-product-id').value = '';
-            document.getElementById('prod-name').value = '';
-            document.getElementById('prod-price-cop').value = '';
-            document.getElementById('prod-price-usd').value = '';
-            document.getElementById('prod-desc').value = '';
-            document.getElementById('prod-img1').value = '';
-            document.getElementById('prod-img2').value = '';
-            document.getElementById('form-product-title').textContent = "Crear Nuevo Producto";
         }
     </script>
 </body>
